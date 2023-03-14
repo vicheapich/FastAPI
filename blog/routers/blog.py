@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, File, HTTPException, Response, UploadFile, status
 from .. import schemas, database
 from sqlalchemy.orm import Session
 from typing import List
@@ -16,7 +16,7 @@ def get_all(db: Session = Depends(get_db), current_user: schemas.User = Depends(
     return blog.get_all(db)
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/add-blog", status_code=status.HTTP_201_CREATED)
 def create(request:schemas.Blog, db: Session = Depends(get_db),current_user: schemas.User = Depends(oauth2.get_current_user)):
     return blog.create(db, request)
 

@@ -18,3 +18,9 @@ class User(Base):
     password = Column(String)
     
     blogs = relationship("Blog", back_populates='creator')
+
+class Blacklist(Base):
+    __tablename__ = 'blacklists'
+    id  = Column(Integer, primary_key=True, index=True)
+    email = Column(String)
+    token = Column(String, unique=True)

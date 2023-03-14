@@ -15,3 +15,15 @@ def show(id:int, db:Session):
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"User with the id {id} is not available")
     return user
+
+def find_black_list_token(token:str, db:Session):
+    used_token = db.query(models.Blacklist).filter(models.Blacklist.token == token).first()
+    return used_token
+
+def save_black_list_token(token:str, db:Session, current_user = models.User.email):
+    # block_token = db.query(token = token, email= current_user.email)
+    block_token = models.Blacklist(token = token, email=current_user)
+    db.add(block_token)
+    db.commit()
+    db.refresh(block_token)
+    return block_token
